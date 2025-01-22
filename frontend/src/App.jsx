@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "./components/Header";
 import Board from "./components/Board";
 import GameModal from "./components/GameModal";
-import "./index.css";
+import "./styles/index.css";
 
 const App = () => {
   const [gameId, setGameId] = useState(null);
@@ -23,7 +23,7 @@ const App = () => {
       setShipsLeft(10);
       setMessage("New game started!");
       setIsGameOver(false);
-      setModalIsOpen(false); // Close modal if open
+      setModalIsOpen(false);
     } catch (error) {
       setMessage("Failed to start a new game. Please try again.");
     }
@@ -63,7 +63,7 @@ const App = () => {
         setModalIsOpen(true);
         setMessage("Congratulations! You sunk all the ships!");
       } else if (message.includes("sunk")) {
-        setModalIsOpen(true); // Open modal for sunk ships
+        setModalIsOpen(true);
       }
     } catch (error) {
       setMessage(error.response?.data?.error || "An error occurred. Please try again.");

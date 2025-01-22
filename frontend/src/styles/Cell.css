@@ -1,28 +1,28 @@
 .cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50px;
     height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border: 1px solid #000;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.cell:hover {
-    transform: scale(1.1);
-}
-
-.cell.untouched {
+    box-sizing: border-box;
     background-color: #87cefa;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .cell.hit {
     background-color: red;
-    color: white;
 }
 
 .cell.miss {
     background-color: gray;
-    color: white;
+}
+
+.cell:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.cell.untouched {
+    background-color: #87cefa;
 }
