@@ -1,6 +1,6 @@
 const generateBoard = () => {
     const grid = Array.from({ length: 10 }, () => Array(10).fill(null));
-    const shipsConfig = [5, 4, 3, 3, 2, 2, 1, 1, 1];
+    const shipsConfig = [5, 4, 3, 3, 2, 2, 2, 1, 1, 1];
     const ships = [];
 
     const isValidPlacement = (positions) => {

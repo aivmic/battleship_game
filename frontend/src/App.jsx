@@ -76,12 +76,19 @@ const App = () => {
       <button className="new-game-button" onClick={startNewGame}>
         Start New Game
       </button>
-      <div className="game-info">
-        <p>{message}</p>
-        <p>Remaining Shots: {remainingShots}</p>
-        <p>Ships Left: {shipsLeft}</p>
-      </div>
-      <Board board={board} handleCellClick={handleCellClick} isGameOver={isGameOver} />
+
+      {/* Conditionally render the board and game information */}
+      {gameId && (
+        <>
+          <div className="game-info">
+            <p>{message}</p>
+            <p>Remaining Shots: {remainingShots}</p>
+            <p>Ships Left: {shipsLeft}</p>
+          </div>
+          <Board board={board} handleCellClick={handleCellClick} isGameOver={isGameOver} />
+        </>
+      )}
+
       <GameModal isOpen={modalIsOpen} message={message} onClose={() => setModalIsOpen(false)} />
     </div>
   );
