@@ -1,19 +1,34 @@
 const { generateBoard } = require('../utils/boardGenerator');
+const { MAX_SHOTS } = require('../config/constants');
 const games = new Map();
 
+/**
+ * Creates a new game instance with a unique game ID.
+ * Initializes the board, available shots, and ship information for the game.
+ * @returns {string} The unique ID of the newly created game.
+ */
 const createNewGame = () => {
     const gameId = `game-${Date.now()}`;
     const board = generateBoard();
     games.set(gameId, {
         board,
         shots: [],
-        remainingShots: 25,
+        remainingShots: MAX_SHOTS,
         shipsLeft: board.ships.length,
         ships: board.ships,
     });
     return gameId;
 };
 
+/**
+ * Processes a shot fired by the player.
+ * Updates the game state based on whether the shot hits, sinks a ship, or misses.
+ * @param {string} gameId - The ID of the game being played.
+ * @param {number} x - The x-coordinate of the shot.
+ * @param {number} y - The y-coordinate of the shot.
+ * @returns {object} The result of the shot, including updated board state and remaining shots.
+ * @throws {Error} If the game is not found or invalid parameters are provided.
+ */
 const processShot = (gameId, x, y) => {
     const game = games.get(gameId);
     if (!game) throw new Error('Game not found');
@@ -23,7 +38,8 @@ const processShot = (gameId, x, y) => {
         return {
             message: 'Already shot here',
             hit: false,
-            board: game.board.grid,
+            coordinates: { x, y },
+            board: maskBoard(game.board.grid),
             remainingShots: game.remainingShots,
             shipsLeft: game.ships.filter((ship) => !ship.sunk).length,
         };
@@ -45,7 +61,8 @@ const processShot = (gameId, x, y) => {
                 message: 'You sunk a ship!',
                 hit: true,
                 sunk: true,
-                board: game.board.grid,
+                coordinates: { x, y },
+                board: maskBoard(game.board.grid),
                 remainingShots: game.remainingShots,
                 shipsLeft: game.ships.filter((ship) => !ship.sunk).length,
             };
@@ -54,8 +71,8 @@ const processShot = (gameId, x, y) => {
         return {
             message: 'Hit!',
             hit: true,
-            sunk: false,
-            board: game.board.grid,
+            coordinates: { x, y },
+            board: maskBoard(game.board.grid),
             remainingShots: game.remainingShots,
             shipsLeft: game.ships.filter((ship) => !ship.sunk).length,
         };
@@ -67,6 +84,7 @@ const processShot = (gameId, x, y) => {
             return {
                 message: 'Out of shots! You lose!',
                 hit: false,
+                coordinates: { x, y },
                 board: game.board.grid,
                 remainingShots: game.remainingShots,
                 shipsLeft: game.ships.filter((ship) => !ship.sunk).length,
@@ -76,16 +94,30 @@ const processShot = (gameId, x, y) => {
         return {
             message: 'Miss!',
             hit: false,
-            board: game.board.grid,
+            coordinates: { x, y },
+            board: maskBoard(game.board.grid),
             remainingShots: game.remainingShots,
             shipsLeft: game.ships.filter((ship) => !ship.sunk).length,
         };
     }
 };
 
+/**
+ * Masks the game board to hide unhit ship cells.
+ * @param {Array<Array<string|null>>} board - The game board grid.
+ * @returns {Array<Array<string|null>>} A masked version of the board.
+ */
+const maskBoard = (board) =>
+    board.map((row) =>
+        row.map((cell) => (cell === 'S' ? null : cell))
+    );
 
-
-
+/**
+ * Retrieves the current state of the game by its ID.
+ * @param {string} gameId - The ID of the game to retrieve.
+ * @returns {object} The current game state, including the board, shots, and ship information.
+ * @throws {Error} If the game is not found.
+ */
 const getGameStateById = (gameId) => {
     const game = games.get(gameId);
     if (!game) throw new Error('Game not found');
