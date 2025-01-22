@@ -26,3 +26,7 @@
 .cell.untouched {
     background-color: #87cefa;
 }
+
+.cell.ship {
+    background-color: yellow;
+}
