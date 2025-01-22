@@ -1,18 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
+import { API_BASE_URL, BOARD_SIZE, SHIP_COUNT, INITIAL_SHOTS } from "../constants";
 
 const useGame = () => {
     const [gameId, setGameId] = useState(null);
-    const [board, setBoard] = useState(Array.from({ length: 10 }, () => Array(10).fill(null)));
-    const [remainingShots, setRemainingShots] = useState(25);
-    const [shipsLeft, setShipsLeft] = useState(10);
+    const [board, setBoard] = useState(Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null)));
+    const [remainingShots, setRemainingShots] = useState(INITIAL_SHOTS);
+    const [shipsLeft, setShipsLeft] = useState(SHIP_COUNT);
     const [message, setMessage] = useState("");
     const [isGameOver, setIsGameOver] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const startNewGame = async () => {
         try {
-            const response = await axios.post("http://localhost:3001/api/game/new-game");
+            const response = await axios.post(`${API_BASE_URL}/game/new-game`);
             setGameId(response.data.gameId);
             resetGameState();
             setMessage("New game started!");
@@ -28,7 +29,7 @@ const useGame = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:3001/api/game/shoot", { gameId, x, y });
+            const response = await axios.post(`${API_BASE_URL}/game/shoot`, { gameId, x, y });
             const { message, hit, sunk, coordinates, board: newBoard, remainingShots, shipsLeft } = response.data;
 
             setMessage(message);
@@ -76,7 +77,7 @@ const useGame = () => {
     };
 
     const resetGameState = () => {
-        setBoard(Array.from({ length: 10 }, () => Array(10).fill(null)));
+        setBoard(Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null)));
         setRemainingShots(25);
         setShipsLeft(10);
         setIsGameOver(false);
