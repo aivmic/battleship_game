@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../app'); // Import your app instance
+const app = require('../../app');
 
 describe('Battleship API Tests', () => {
     let gameId;
@@ -14,11 +14,11 @@ describe('Battleship API Tests', () => {
     test('Shoot at a valid coordinate and miss', async () => {
         const res = await request(app)
             .post('/api/game/shoot')
-            .send({ gameId, x: 0, y: 0 }); // Adjust coordinates as needed
+            .send({ gameId, x: 0, y: 0 });
 
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveProperty('message');
-        expect(res.body.message).toMatch(/Miss|Hit/); // Could be 'Miss' or 'Hit'
+        expect(res.body.message).toMatch(/Miss|Hit/);
     });
 
     test('Shoot at the same coordinate twice', async () => {
@@ -27,13 +27,13 @@ describe('Battleship API Tests', () => {
             .post('/api/game/shoot')
             .send({ gameId, x: 0, y: 0 });
 
-        // Second shot at the same coordinate
+        // Second shot
         const res = await request(app)
             .post('/api/game/shoot')
             .send({ gameId, x: 0, y: 0 });
 
         expect(res.statusCode).toBe(200);
-        expect(res.body.message).toBe('Already shot here'); // Custom message defined in your service
+        expect(res.body.message).toBe('Already shot here');
     });
 
     test('Retrieve game state', async () => {
@@ -64,10 +64,11 @@ describe('Battleship API Tests', () => {
     test('Shoot with invalid coordinates', async () => {
         const res = await request(app)
             .post('/api/game/shoot')
-            .send({ gameId, x: 20, y: 20 }); // Out-of-bound coordinates
+            .send({ gameId, x: 20, y: 20 });
 
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('error');
-        expect(res.body.error).toBe('Invalid parameters');
+        expect(res.body.error).toBe('Invalid coordinates');
     });
+
 });
