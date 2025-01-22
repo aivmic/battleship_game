@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Header from "./components/Header";
 import Board from "./components/Board";
+import GameModal from "./components/GameModal";
 import "./index.css";
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
   const [shipsLeft, setShipsLeft] = useState(10);
   const [message, setMessage] = useState("");
   const [isGameOver, setIsGameOver] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const startNewGame = async () => {
     try {
@@ -18,9 +20,10 @@ const App = () => {
       setGameId(response.data.gameId);
       setBoard(Array.from({ length: 10 }, () => Array(10).fill(null)));
       setRemainingShots(25);
-      setShipsLeft(9);
+      setShipsLeft(10);
       setMessage("New game started!");
       setIsGameOver(false);
+      setModalIsOpen(false); // Close modal if open
     } catch (error) {
       setMessage("Failed to start a new game. Please try again.");
     }
@@ -53,16 +56,19 @@ const App = () => {
 
       if (remainingShots === 0) {
         setIsGameOver(true);
+        setModalIsOpen(true);
         setMessage("Out of shots! You lose!");
       } else if (shipsLeft === 0) {
         setIsGameOver(true);
+        setModalIsOpen(true);
         setMessage("Congratulations! You sunk all the ships!");
+      } else if (message.includes("sunk")) {
+        setModalIsOpen(true); // Open modal for sunk ships
       }
     } catch (error) {
       setMessage(error.response?.data?.error || "An error occurred. Please try again.");
     }
   };
-
 
   return (
     <div className="app">
@@ -76,6 +82,7 @@ const App = () => {
         <p>Ships Left: {shipsLeft}</p>
       </div>
       <Board board={board} handleCellClick={handleCellClick} isGameOver={isGameOver} />
+      <GameModal isOpen={modalIsOpen} message={message} onClose={() => setModalIsOpen(false)} />
     </div>
   );
 };
