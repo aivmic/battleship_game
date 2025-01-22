@@ -9,6 +9,7 @@ const createNewGame = () => {
         shots: [],
         remainingShots: 25,
         shipsLeft: board.ships.length,
+        ships: board.ships,
     });
     return gameId;
 };

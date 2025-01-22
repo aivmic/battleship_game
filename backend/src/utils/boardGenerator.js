@@ -1,12 +1,11 @@
 const generateBoard = () => {
     const grid = Array.from({ length: 10 }, () => Array(10).fill(null));
-    const shipsConfig = [5, 4, 3, 3, 2, 2, 1, 1, 1]; // Ship sizes
-    const ships = []; // To track each ship's positions and hit status
+    const shipsConfig = [5, 4, 3, 3, 2, 2, 1, 1, 1];
+    const ships = [];
 
     const isValidPlacement = (positions) => {
         for (const [x, y] of positions) {
             if (x < 0 || y < 0 || x >= 10 || y >= 10) return false;
-
             for (let dx = -1; dx <= 1; dx++) {
                 for (let dy = -1; dy <= 1; dy++) {
                     const nx = x + dx;
@@ -22,7 +21,6 @@ const generateBoard = () => {
 
     const placeShip = (size) => {
         let placed = false;
-
         while (!placed) {
             const vertical = Math.random() < 0.5;
             const startX = Math.floor(Math.random() * 10);
