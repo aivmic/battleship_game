@@ -1,6 +1,6 @@
-# Battleship Game: Play Against the Computer
+# ![image](https://github.com/user-attachments/assets/aeb5fd35-ee65-47b5-9072-813ab4df153d)
 
-## This project is a Battleship Game built with a React.js frontend and a Node.js/Express backend. The player competes against the computer, guessing where the computer's ships are hidden on a 10x10 grid.
+## Battleship Game built with a React.js frontend and a Node.js/Express backend. The player competes against the computer, guessing where the computer's ships are hidden on a 10x10 grid.
 
 # How to run
 
@@ -31,6 +31,14 @@ npm install
 Start the frontend development server:
 
 npm start
+
+# Images of game
+
+![image](https://github.com/user-attachments/assets/debb2972-25f9-47c6-8d4b-f2738986437c)
+
+![image](https://github.com/user-attachments/assets/35b95732-8302-4e90-ae94-cf78d0d47fc8)
+
+
 
 
 # Features
