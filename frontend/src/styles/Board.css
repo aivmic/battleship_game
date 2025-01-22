@@ -1,6 +1,8 @@
 .board {
     display: grid;
-    grid-template-columns: repeat(10, 40px);
+    grid-template-columns: repeat(10, 50px);
     gap: 2px;
     margin: 20px auto;
+    border: 2px solid #4682b4;
+    background-color: #f0f8ff;
 }

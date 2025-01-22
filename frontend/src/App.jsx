@@ -18,7 +18,7 @@ const App = () => {
       setGameId(response.data.gameId);
       setBoard(Array.from({ length: 10 }, () => Array(10).fill(null)));
       setRemainingShots(25);
-      setShipsLeft(10);
+      setShipsLeft(9);
       setMessage("New game started!");
       setIsGameOver(false);
     } catch (error) {
@@ -62,6 +62,7 @@ const App = () => {
       setMessage(error.response?.data?.error || "An error occurred. Please try again.");
     }
   };
+
 
   return (
     <div className="app">
