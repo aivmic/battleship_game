@@ -35,5 +35,7 @@ header {
 
 .game-info {
     margin: 20px 0;
-    font-size: 18px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
 }

@@ -23,7 +23,7 @@ const processShot = (gameId, x, y) => {
         return {
             message: 'Already shot here',
             hit: false,
-            board: game.board.grid, // Current board state
+            board: game.board.grid,
             remainingShots: game.remainingShots,
             shipsLeft: game.ships.filter((ship) => !ship.sunk).length,
         };
@@ -33,8 +33,7 @@ const processShot = (gameId, x, y) => {
 
     const cell = game.board.grid[x][y];
     if (cell === 'S') {
-        game.board.grid[x][y] = 'H'; // Mark hit
-
+        game.board.grid[x][y] = 'H';
         const ship = game.ships.find((ship) =>
             ship.positions.some(([sx, sy]) => sx === x && sy === y)
         );
@@ -46,9 +45,9 @@ const processShot = (gameId, x, y) => {
                 message: 'You sunk a ship!',
                 hit: true,
                 sunk: true,
-                board: game.board.grid, // Include updated board
+                board: game.board.grid,
                 remainingShots: game.remainingShots,
-                shipsLeft: game.ships.filter((ship) => !ship.sunk).length, // Update ships left
+                shipsLeft: game.ships.filter((ship) => !ship.sunk).length,
             };
         }
 
@@ -61,7 +60,7 @@ const processShot = (gameId, x, y) => {
             shipsLeft: game.ships.filter((ship) => !ship.sunk).length,
         };
     } else {
-        game.board.grid[x][y] = 'M'; // Mark miss
+        game.board.grid[x][y] = 'M';
         game.remainingShots -= 1;
 
         if (game.remainingShots === 0) {

@@ -77,7 +77,6 @@ const App = () => {
         Start New Game
       </button>
 
-      {/* Conditionally render the board and game information */}
       {gameId && (
         <>
           <div className="game-info">
